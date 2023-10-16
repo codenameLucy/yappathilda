@@ -2,7 +2,7 @@ import requests
 
 
 class ElevenLabsAPI:
-    def __init__(self, api_key):
+    def __init__(self, api_key: str):
         self.api_key = api_key
         self.api_url = "https://api.elevenlabs.io"
 
@@ -16,7 +16,7 @@ class ElevenLabsAPI:
 
         return response
 
-    def get_voice(self, voice_id):
+    def get_voice(self, voice_id: str):
         headers = {
             'xi-api-key': self.api_key
         }
@@ -26,7 +26,7 @@ class ElevenLabsAPI:
 
         return response
 
-    def get_text_to_speech(self, text_to_convert, voice_id):
+    def get_text_to_speech(self, text_to_convert: str, voice_id: str):
         headers = {
             'xi-api-key': self.api_key,
             "optimize_streaming_latency": "0",
