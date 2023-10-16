@@ -1,7 +1,4 @@
 import requests
-import io
-import soundfile as sf
-from urllib.request import urlopen
 
 
 class ElevenLabsAPI:

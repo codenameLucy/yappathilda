@@ -1,0 +1,48 @@
+# Compiled Python files
+__pycache__/
+*.pyc
+
+# Logs and databases
+*.log
+*.sql
+
+# Environment and virtual environment files
+.env
+.venv
+venv/
+*.env
+
+# PyCharm IDE files
+.idea/
+*.iml
+
+# User-specific PyCharm settings
+.idea/workspace.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Mac and Windows files
+.DS_Store
+Thumbs.db
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Python and PyCharm project files
+*.pyproj
+*.pyc
+
+# Python env
+__pycache__/
+*.pyc
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
