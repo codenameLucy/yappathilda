@@ -42,7 +42,7 @@ class ElevenLabsAPI:
                 "use_speaker_boost": "true"
             }
         }
-        text_to_speech_url = f"{self.api_url}/v1/text-to-speech/jBpfuIE2acCO8z3wKNLl"
+        text_to_speech_url = f"{self.api_url}/v1/text-to-speech/{voice_id}"
 
         response = requests.post(text_to_speech_url, json=request_body, headers=headers)
 
