@@ -1,0 +1,7 @@
+{
+  "twitch_credentials": {
+    "server": "wss://pubsub-edge.twitch.tv",
+    "auth_token": "n49fmtv34o2vvsnwhrqeyf2el672qm",
+    "channel_id": "784332050"
+  }
+}
