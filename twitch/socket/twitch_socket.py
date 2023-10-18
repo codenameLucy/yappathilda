@@ -13,16 +13,20 @@ from obs.obs_websocket import OBSWebsocket
 # TODO: Find a way to automatically determine channel id of user
 
 
+class RewardMissingUserInputException(Exception):
+    pass
+
+
 class TwitchRewardSocket:
     def __init__(self, json_config: dict, elevenlabs_api: ElevenLabsAPI):
         self.json_config = json_config
         # Set Twitch credentials
-        credentials = self.json_config['twitch_credentials']
-        channel_id = credentials['channel_id']
+        self.credentials = self.json_config['twitch_credentials']
+        channel_id = self.credentials['channel_id']
         self.topics = [f"channel-points-channel-v1.{channel_id}"]
-        self.auth_token = credentials['auth_token']
+        self.auth_token = self.credentials['auth_token']
         # Twitch PubSub endpoint
-        self.uri = credentials['server']
+        self.uri = self.credentials['server']
         # Elevenlabs
         self.elevenlabs_api = elevenlabs_api
         self.elevenlabs_credentials = self.json_config['elevenlabs_credentials']
@@ -55,8 +59,13 @@ class TwitchRewardSocket:
                     reward_type = message['data']['redemption']['reward']['title']
                     username = message['data']['redemption']['user']['display_name']
 
-                    if reward_type == 'Talk through Thilda':
-                        user_input = message['data']['redemption']['user_input']
+                    if reward_type == self.credentials['tts_reward_name']:
+                        try:
+                            user_input = message['data']['redemption']['user_input']
+                        except KeyError as e:
+                            raise RewardMissingUserInputException(
+                                f"Your chosen redeemable reward is missing user input,"
+                                f" make sure the reward requires a viewer to enter text. error: {e}") from e
 
                         # retrieve raw audio bytes
                         tts = self.elevenlabs_api.get_text_to_speech(

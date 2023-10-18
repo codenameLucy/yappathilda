@@ -49,6 +49,7 @@ __pycache__/
 
 # Config
 config/config.json
+elevenlabs/__pycache__/
 
 # executable release
 output/

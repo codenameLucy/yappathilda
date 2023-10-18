@@ -3,6 +3,7 @@
     "server": "wss://pubsub-edge.twitch.tv",
     "auth_token": "your_channel_auth_token",
     "channel_id": "your_channel_id"
+    "tts_reward_name": "THIS IS WHAT PEOPLE WILL REDEEM, THIS IS CAPS SENSITIVE"
   },
   "obs_credentials": {
     "host": "localhost",
@@ -15,5 +16,6 @@
     "api_url": "https://api.elevenlabs.io",
     "xi-api-key": "API-KEY-FOUND-IN-PROFILE",
     "voice_name": "Clyde"
+    "audio_device": "A SEPERATE AUDIO DEVICE HERE"
   }
 }
