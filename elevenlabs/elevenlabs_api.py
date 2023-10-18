@@ -33,7 +33,7 @@ class ElevenLabsAPI:
                 return voice['voice_id']
         raise VoiceNotFoundException("The given voice name does not match any voices in your library")
 
-    def get_text_to_speech(self, text_to_convert: str, voice_name: str):
+    def get_text_to_speech(self, text_to_convert: str, voice_name: str) -> bytes:
         headers = {
             'xi-api-key': self.api_key,
             "optimize_streaming_latency": "0",
