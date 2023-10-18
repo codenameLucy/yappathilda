@@ -1,0 +1,19 @@
+{
+  "twitch_credentials": {
+    "server": "wss://pubsub-edge.twitch.tv",
+    "auth_token": "your_channel_auth_token",
+    "channel_id": "your_channel_id"
+  },
+  "obs_credentials": {
+    "host": "localhost",
+    "port": 4455,
+    "password": "your_password_for_obs_if_you_have_one",
+    "scene_name": "EXAMPLE:tts_nest",
+    "source_name": "EXAMPLE:tts"
+  },
+    "elevenlabs_credentials": {
+    "api_url": "https://api.elevenlabs.io",
+    "xi-api-key": "API-KEY-FOUND-IN-PROFILE",
+    "voice_name": "Clyde"
+  }
+}
