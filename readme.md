@@ -27,3 +27,10 @@ in all the required information.
 Your APIKey for [elevenlabs](https://elevenlabs.io/) can be found in your profile section.
 
 On the OBS side you can follow this [video](https://www.youtube.com/watch?v=u0XXNotHMEA) (excluding the parts about bikubot)
+
+
+---
+
+**Development setup process**
+
+Python 3.11.6 is used for development. pip requirements are listed in requirements.txt
