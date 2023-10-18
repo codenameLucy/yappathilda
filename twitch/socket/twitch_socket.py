@@ -68,6 +68,6 @@ class TwitchRewardSocket:
                         self.obs_ws.change_visibility_tts_scene(visible=True)
 
                         # read out raw bytes and play in real time
-                        play_audio(tts)
+                        play_audio(tts, audio_device=self.elevenlabs_credentials['audio_device'])
 
                         self.obs_ws.change_visibility_tts_scene(visible=False)

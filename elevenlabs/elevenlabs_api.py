@@ -24,14 +24,12 @@ class ElevenLabsAPI:
         return response.json()
 
     def get_voice_id(self, voice_name: str) -> int:
-        headers = {
-            'xi-api-key': self.api_key
-        }
         voices = self.get_voices()
         for voice in voices['voices']:
             if voice['name'] == voice_name:
                 return voice['voice_id']
-        raise VoiceNotFoundException("The given voice name does not match any voices in your library")
+        raise VoiceNotFoundException(
+            "The given voice name does not match any voices in your library, please check elevenlabs and your config")
 
     def get_text_to_speech(self, text_to_convert: str, voice_name: str) -> bytes:
         headers = {

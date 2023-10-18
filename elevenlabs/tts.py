@@ -8,10 +8,10 @@ class RawAudioException(Exception):
     pass
 
 
-def play_audio(raw_audio: bytes):
+def play_audio(raw_audio: bytes, audio_device: str):
     try:
-        sd.default.device = 'Headphones (3- Shure MV7), MME'
+        sd.default.device = audio_device
         sd.play(*sf.read(io.BytesIO(raw_audio)))
         sd.wait()
     except Exception as e:
-        raise RawAudioException(f"exception occured during attempt at playing raw audio bytes: {e}") from e
+        raise RawAudioException(f"exception occurred during attempt at playing raw audio bytes: {e}") from e

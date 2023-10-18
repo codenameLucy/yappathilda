@@ -49,3 +49,6 @@ __pycache__/
 
 # Config
 config/config.json
+
+# executable release
+output/
