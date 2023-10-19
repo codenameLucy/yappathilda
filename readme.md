@@ -20,6 +20,7 @@ for any direct questions or concerns feel free to join the discord server.
 
 - [Elevenlabs](https://elevenlabs.io/) account set up 
 (this is not required though you will be rate limited)
+  - Disclaimer: To make full usage of elevenlabs posibilities you will need a subscription.
 - a twitch account :)
 - obs move transition (https://obsproject.com/forum/resources/move.913/)
 
