@@ -11,26 +11,26 @@ class OBSConnectionFailedException(Exception):
 
 
 class OBSWebsocket:
-    def __init__(self, credentials):
-        self.credentials = credentials
+    def __init__(self, obs_credentials):
+        self.obs_credentials = obs_credentials
         try:
-            self.obs_ws = obs.ReqClient(host=self.credentials['host'], port=self.credentials['port'],
-                                        password=self.credentials['password'], timeout=3)
-        except OBSSDKError as e:
+            self.obs_ws = obs.ReqClient(host=self.obs_credentials['host'], port=self.obs_credentials['port'],
+                                        password=self.obs_credentials['password'], timeout=3)
+        except ConnectionRefusedError as e:
             raise OBSConnectionFailedException("Connection with websocket to obs failed,"
                                                " did you enable your websocket in OBS?") from e
 
     def change_visibility_tts_scene(self, visible: bool):
         self.obs_ws.set_scene_item_enabled(
-            self.credentials['scene_name'],
+            self.obs_credentials['scene_name'],
             enabled=visible,
-            item_id=self._get_scene_item_id(
-                scene_name=self.credentials['scene_name'],
-                source_name=self.credentials['source_name']
+            item_id=self.get_scene_item_id(
+                scene_name=self.obs_credentials['scene_name'],
+                source_name=self.obs_credentials['source_name']
             )
         )
 
-    def _get_scene_item_id(self, scene_name: str, source_name: str) -> int:
+    def get_scene_item_id(self, scene_name: str, source_name: str) -> int:
         try:
             scene_item_id = self.obs_ws.get_scene_item_id(scene_name, source_name).scene_item_id
         except OBSSDKError as e:

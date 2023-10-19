@@ -6,9 +6,8 @@ class VoiceNotFoundException(Exception):
 
 
 class ElevenLabsAPI:
-    def __init__(self, json_config: dict):
-        self.json_config = json_config
-        self.elevenlabs_credentials = self.json_config['elevenlabs_credentials']
+    def __init__(self, elevenlabs_credentials: dict):
+        self.elevenlabs_credentials = elevenlabs_credentials
 
         self.api_key = self.elevenlabs_credentials['xi-api-key']
         self.api_url = self.elevenlabs_credentials['api_url']

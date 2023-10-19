@@ -1,4 +1,5 @@
 import json
+import logging
 
 import websockets
 
@@ -6,11 +7,7 @@ from elevenlabs.elevenlabs_api import ElevenLabsAPI
 from elevenlabs.tts import play_audio
 from obs.obs_websocket import OBSWebsocket
 
-
-# TODO: Find a way for our programm to generate the channel token with the correct helix scope, currently used https://twitchtokengenerator.com/
-
-
-# TODO: Find a way to automatically determine channel id of user
+logger = logging.getLogger(__name__)
 
 
 class RewardMissingUserInputException(Exception):
@@ -31,7 +28,7 @@ class TwitchRewardSocket:
         self.elevenlabs_api = elevenlabs_api
         self.elevenlabs_credentials = self.json_config['elevenlabs_credentials']
         # OBS websocket
-        self.obs_ws = OBSWebsocket(credentials=self.json_config['obs_credentials'])
+        self.obs_ws = OBSWebsocket(obs_credentials=self.json_config['obs_credentials'])
 
     async def listen(self):
         async with websockets.connect(self.uri) as websocket:
@@ -43,7 +40,7 @@ class TwitchRewardSocket:
                     "auth_token": self.auth_token
                 }
             }))
-            print("Connection with twitch chat established, reading rewards...")
+            logger.info(" [OK] Connection with twitch chat established, reading rewards...")
 
             while True:
                 response = await websocket.recv()
@@ -71,8 +68,7 @@ class TwitchRewardSocket:
                         tts = self.elevenlabs_api.get_text_to_speech(
                             text_to_convert=user_input,
                             voice_name=self.elevenlabs_credentials["voice_name"])
-
-                        # TODO: make bad word filter
+                        logger.info(f"Audio received with following input: {user_input}")
 
                         self.obs_ws.change_visibility_tts_scene(visible=True)
 
