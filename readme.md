@@ -1,12 +1,18 @@
 # **YappaThilda**
-### A twitch elevenlabs TTS integration,
+### An elevenlabs TTS bot with built in twitch integration
 
 ---
 
-A twitch integration programme connected with elevenlabs to deliver
-custom voice tts to your own stream
+Elevate your chat tts by using the limitless speech possibility provided by elevenlabs.
+Comes with direct twitch integration and obs integration.
 
 **If you enjoy this software, please credit [LucyCecidit](https://www.twitch.tv/lucycecidit)**
+
+
+for any direct questions or concerns feel free to join the discord server.
+
+
+[![Join our Discord server!](https://invidget.switchblade.xyz/4ahvUxhcab)](http://discord.gg/4ahvUxhcab)
 
 ---
 
@@ -29,6 +35,7 @@ named ``config.json.example``; rename this file to ``config.json`` and fill
 in all the required information.
 
 your auth token can be found here: https://twitchtokengenerator.com/
+
 your twitch channel id can be found here: https://streamscharts.com/tools/convert-username
 
 Your APIKey for [elevenlabs](https://elevenlabs.io/) can be found in your profile section.
