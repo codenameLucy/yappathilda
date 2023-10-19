@@ -41,8 +41,8 @@ if __name__ == "__main__":
             # go to main program once ensured everything is in place
             if obs and ttv and x_ii:
                 initial_setup = True
-            else:
-                input("press enter to retry setup")
+        else:
+            input("press enter to retry setup")
 
     try:
         asyncio.run(main(json_config=json_config))

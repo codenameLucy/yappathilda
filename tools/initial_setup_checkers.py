@@ -16,7 +16,7 @@ def check_config_available(file_path: str) -> bool:
         return True
     logger.critical(
         " [ERROR] Config file can not be found, "
-        "check your config folder and make sure you renamed config.json.exampl~e to config.json"
+        "check your config folder and make sure you renamed config.json.example to config.json"
     )
     return False
 
