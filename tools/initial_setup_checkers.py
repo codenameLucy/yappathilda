@@ -1,13 +1,14 @@
 import json
 import os
 import logging
+import time
 from json import JSONDecodeError
 
 from websockets.sync.client import connect
 
 from elevenlabs.elevenlabs_api import ElevenLabsAPI, VoiceNotFoundException
 from obs.obs_websocket import OBSWebsocket, OBSConnectionFailedException, OBSSceneMissingException
-from tools.twitch_auth_generator import initialize_flask_twitch_authentication
+from tools.twitch_auth_generator import initialize_flask_twitch_authentication, FlaskNotAliveException
 from twitch.tools import generate_twitch_token, TwitchUserNotFoundException
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,15 @@ def validate_setup():
 
         if not json_config['twitch_credentials'].get("channel_id"):
             logger.warning(" [OK] Twitch credentials missing, starting authentication process...")
-            initialize_flask_twitch_authentication(twitch_credentials=json_config['twitch_credentials'])
+
+            try:
+                initialize_flask_twitch_authentication(twitch_credentials=json_config['twitch_credentials'])
+            except FlaskNotAliveException:
+                logger.critical(" [ERROR] Something went wrong during Flask initialisation. Please report this.")
+                return False
+
+            time.sleep(5)
+
             with open("config/config.json") as config_file:
                 json_config = json.loads(config_file.read())
             try:

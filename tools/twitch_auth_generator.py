@@ -1,21 +1,34 @@
-from multiprocessing import Process
+import logging
+import os
+import psutil
+from subprocess import Popen, CREATE_NEW_CONSOLE
+import time
 
-from flask_webserver.flask_main import run_flask
 from twitch.tools import get_authentication_code
+
+logger = logging.getLogger(__name__)
+
+
+class FlaskNotAliveException(Exception):
+    pass
 
 
 def initialize_flask_twitch_authentication(twitch_credentials: dict) -> None:
-    # Create a thread to run the Flask application
-    flask_process = Process(target=run_flask)
+    # Start the subprocess
+    process = Popen(
+        f"{os.path.abspath('bottle_main.exe')}",
+        shell=True,
+        creationflags=CREATE_NEW_CONSOLE,
+    )
 
-    # Start the Flask application in a separate thread to read out redirect parameters
-    flask_process.start()
+    time.sleep(5)
 
-    # initiate authentication
     get_authentication_code(twitch_credentials=twitch_credentials)
 
-    # Wait for the Flask thread to finish
-    flask_process.join(5)
+    time.sleep(5)
 
-    flask_process.kill()
-    print(flask_process.is_alive())
+    # To terminate the subprocess
+    for proc in psutil.process_iter():
+        # check whether the process name matches
+        if proc.name() == "bottle_main.exe":
+            proc.kill()
