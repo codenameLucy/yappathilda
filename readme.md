@@ -28,34 +28,30 @@ for any direct questions or concerns feel free to join the discord server.
 
 **Setup process**
 
-##### Twitch & elevenlabs
+##### Twitch & elevenlabs configuration
 
 
 Inside your config folder, there will be a file
 named ``config.json.example``; rename this file to ``config.json`` and fill 
 in all the required information.
 
-your auth token can be found here: https://twitchtokengenerator.com/
+- Your APIKey for [elevenlabs](https://elevenlabs.io/) can be found in your profile section.
 
-your twitch channel id can be found here: https://streamscharts.com/tools/convert-username
-
-Your APIKey for [elevenlabs](https://elevenlabs.io/) can be found in your profile section.
+- Your unused audio device (that is required for the tts part to work) can be found
+by using the delivered `discover_audio_devices` executable.
+  - With some installations, multiple devices will be found, if this happens try the ones given
+  in that list (For example `external speakers` would become `external speakers, MME`)
 
 ---
 
 ##### OBS
 
-Inside OBS, you will need to make a scene for your tts bot to have the two images
-(one for opening mouth and one for closing). This scene name should be similar to ``source_name``
-inside your ``config.json`` file.
-
-Once this is done you will need to make another scene, the name will have to be similar to ``scene_name``
-inside your ``config.json`` file. Add your prior made scene into this one as a source and hide it by default.
-
-After this, go to your audio settings inside OBS and assign an unused audio source to ``desktop audio 2``;
+Inside OBS, you will need to go to your audio settings inside
+OBS and assign an unused audio source to ``desktop audio 2``;
 Then scroll down to advanced and assign your default audio source to ``monitoring device``.
 
-- To find out what other audio device you can add to your config file, please use the ``discover_audio_devices`` executable
+- To find out what other audio device you can add to your config file,
+please use the ``discover_audio_devices`` executable
 
 
 Go to the advanced audio properties in obs by clicking on the burger icon on one of your audio sources in the audio mixer.

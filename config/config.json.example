@@ -1,9 +1,10 @@
 {
   "twitch_credentials": {
     "server": "wss://pubsub-edge.twitch.tv",
-    "auth_token": "your_channel_auth_token",
-    "channel_id": "your_channel_id"
+    "client_id": "9vphbqz1q2wglw7cikmn210rrqybsn",
+    "client_secret": "6nw1y0ffjb0gjyco2l4dx9f5eigd5b",
     "tts_reward_name": "THIS IS WHAT PEOPLE WILL REDEEM, THIS IS CAPS SENSITIVE"
+    "username": "USERNAMEHERE"
   },
   "obs_credentials": {
     "host": "localhost",
@@ -15,7 +16,7 @@
     "elevenlabs_credentials": {
     "api_url": "https://api.elevenlabs.io",
     "xi-api-key": "API-KEY-FOUND-IN-PROFILE",
-    "voice_name": "Clyde"
+    "voice_name": "Clyde",
     "audio_device": "A SEPERATE AUDIO DEVICE HERE"
   }
 }

@@ -6,8 +6,41 @@ from websockets.sync.client import connect
 
 from elevenlabs.elevenlabs_api import ElevenLabsAPI, VoiceNotFoundException
 from obs.obs_websocket import OBSWebsocket, OBSConnectionFailedException, OBSSceneMissingException
+from tools.twitch_auth_generator import initialize_flask_twitch_authentication
+from twitch.tools import generate_twitch_token
 
 logger = logging.getLogger(__name__)
+
+
+def validate_setup():
+    cnfg = check_config_available(file_path="config/config.json")
+
+    # once we know config is available, read out
+    if cnfg:
+        with open("config/config.json") as config_file:
+            json_config = json.loads(config_file.read())
+
+
+        # todo: adding to json config whilst already loading it in memory will fuck things up this is not a neat solution
+        if not json_config['twitch_credentials'].get("code"):
+            logger.warning(" [OK] Twitch credentials missing, starting authentication process...")
+            initialize_flask_twitch_authentication(twitch_credentials=json_config['twitch_credentials'])
+            with open("config/config.json") as config_file:
+                json_config = json.loads(config_file.read())
+
+            generate_twitch_token(twitch_credentials=json_config['twitch_credentials'])
+
+            with open("config/config.json") as config_file:
+                json_config = json.loads(config_file.read())
+
+        obs = check_obs_setup(obs_credentials=json_config['obs_credentials'])
+        ttv = check_twitch_websocket_connection(twitch_credentials=json_config['twitch_credentials'])
+        x_ii = check_elevenlabs_voice_setup(elevenlabs_credentials=json_config['elevenlabs_credentials'])
+
+        # go to main program once ensured everything is in place
+        if obs and ttv and x_ii:
+            return True
+        return False
 
 
 def check_config_available(file_path: str) -> bool:
@@ -29,11 +62,10 @@ def check_obs_setup(obs_credentials: dict) -> bool:
         return False
     logger.info(" [OK] OBS running and connection to websocket established")
     try:
-        obs_web_socket.get_scene_item_id(scene_name=obs_credentials['scene_name'],
-                                         source_name=obs_credentials['source_name'])
+        obs_web_socket.get_scene_item_id()
     except OBSSceneMissingException as e:
-        logger.critical(f" [ERROR] {e}")
-        return False
+        logger.critical(f" [OK] Scenes not found, creating...")
+        obs_web_socket.create_tts_sources()
     logger.info(" [OK] OBS scenes and sources set up correctly")
     return True
 

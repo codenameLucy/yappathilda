@@ -5,6 +5,10 @@ class VoiceNotFoundException(Exception):
     pass
 
 
+class VoicesNotFoundException(Exception):
+    pass
+
+
 class ElevenLabsAPI:
     def __init__(self, elevenlabs_credentials: dict):
         self.elevenlabs_credentials = elevenlabs_credentials
@@ -19,8 +23,9 @@ class ElevenLabsAPI:
 
         voices_url = f"{self.api_url}/v1/voices"
         response = requests.get(voices_url, headers=headers)
-
-        return response.json()
+        if response.status_code == 200:
+            return response.json()
+        raise VoicesNotFoundException("Voices not found, is the api_url in config correct?")
 
     def get_voice_id(self, voice_name: str) -> int:
         voices = self.get_voices()
