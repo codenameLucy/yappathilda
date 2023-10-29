@@ -1,13 +1,14 @@
 import json
 import os
 import logging
+from json import JSONDecodeError
 
 from websockets.sync.client import connect
 
 from elevenlabs.elevenlabs_api import ElevenLabsAPI, VoiceNotFoundException
 from obs.obs_websocket import OBSWebsocket, OBSConnectionFailedException, OBSSceneMissingException
 from tools.twitch_auth_generator import initialize_flask_twitch_authentication
-from twitch.tools import generate_twitch_token
+from twitch.tools import generate_twitch_token, TwitchUserNotFoundException
 
 logger = logging.getLogger(__name__)
 
@@ -17,21 +18,26 @@ def validate_setup():
 
     # once we know config is available, read out
     if cnfg:
-        with open("config/config.json") as config_file:
-            json_config = json.loads(config_file.read())
+        try:
+            with open("config/config.json") as config_file:
+                json_config = json.loads(config_file.read())
+        except JSONDecodeError as e:
+            logger.critical(f" [ERROR] An exception happened during validation of the config, nerd code: {e}")
+            return False
 
-
-        # todo: adding to json config whilst already loading it in memory will fuck things up this is not a neat solution
-        if not json_config['twitch_credentials'].get("code"):
+        if not json_config['twitch_credentials'].get("channel_id"):
             logger.warning(" [OK] Twitch credentials missing, starting authentication process...")
             initialize_flask_twitch_authentication(twitch_credentials=json_config['twitch_credentials'])
             with open("config/config.json") as config_file:
                 json_config = json.loads(config_file.read())
-
-            generate_twitch_token(twitch_credentials=json_config['twitch_credentials'])
-
-            with open("config/config.json") as config_file:
-                json_config = json.loads(config_file.read())
+            try:
+                generate_twitch_token(json_config=json_config)
+            except TwitchUserNotFoundException:
+                logger.critical(
+                    " [ERROR] Username not found on twitch, "
+                    "please make sure you've given the correct name in the config"
+                )
+                return False
 
         obs = check_obs_setup(obs_credentials=json_config['obs_credentials'])
         ttv = check_twitch_websocket_connection(twitch_credentials=json_config['twitch_credentials'])

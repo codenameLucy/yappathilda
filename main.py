@@ -28,10 +28,12 @@ async def main():
 
 if __name__ == "__main__":
     initial_setup = False
-
     logger.info("Commencing initial check")
 
-    validate_setup()
+    while not initial_setup:
+       initial_setup = validate_setup()
+       if not initial_setup:
+           input("Something went wrong during inital setup, please check the error and try again by pressing enter...")
 
     try:
         asyncio.run(main())
